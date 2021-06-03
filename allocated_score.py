@@ -1,10 +1,21 @@
+#!/usr/bin/env python3
 # From https://electowiki.org/wiki/Allocated_Score
 # 2021-06-02T21:15:29-0600 
 
 import pandas as pd
 import numpy as np
 
+
 def Allocated_Score(K, W, S):
+    """
+    Illustrative example with 3 candidates, 2 winners, 10 ballots of each of 3 types
+    >>> scores = [[5, 4, 0]] * 10  +  [[4, 5, 0]] * 10  +  [[0, 2, 5]] * 10
+    >>> candidates = ['A', 'B', 'C']
+    >>> S = pd.DataFrame.from_records(scores, columns=candidates)
+    >>> Allocated_Score(5, 2, S)
+    ['B', 'C']
+    """
+
     #Normalize score matrix
     ballots = pd.DataFrame(S.values/K, columns=S.columns)
     
@@ -54,4 +65,8 @@ def Allocated_Score(K, W, S):
     
         ballot_weight = cand_df['weights'].clip(0.0,1.0)
 
-    return winner_lits
+    return winner_list
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
