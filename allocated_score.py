@@ -8,9 +8,13 @@ import numpy as np
 
 def Allocated_Score(K, W, S):
     """
-    Illustrative example with 3 candidates, 2 winners, 10 ballots of each of 3 types
-    >>> scores = [[5, 4, 0]] * 10  +  [[4, 5, 0]] * 10  +  [[0, 2, 5]] * 10
+    Tabulate and return the list of winners, for an election with W winners and a
+    score ranging from 0 to K. S is Pandas dataframe of scores on each ballot,
+    with columns for candidates and rows for ballots.
+
+    Illustrative example with 3 candidates, 2 winners, 10 ballots of each of 3 factions:
     >>> candidates = ['A', 'B', 'C']
+    >>> scores = [[5, 4, 0]] * 10  +  [[4, 5, 0]] * 10  +  [[0, 2, 5]] * 10
     >>> S = pd.DataFrame.from_records(scores, columns=candidates)
     >>> Allocated_Score(5, 2, S)
     ['B', 'C']
@@ -67,6 +71,68 @@ def Allocated_Score(K, W, S):
 
     return winner_list
 
+
+def dup_factions(factions, num_winners):
+    """Expand a list of factions by a factor of num_winners into a list of candidates
+
+    >>> dup_factions(['A', 'B'], 3)
+    ['A1', 'A2', 'A3', 'B1', 'B2', 'B3']
+    """
+
+    return [f'{f}{n}' for f in factions for n in range(1, num_winners+1)]
+
+
+def dup_scores(scores, num_winners):
+    """Expand a list of scores by a factor of num_winners, yielding one per candidate
+
+    >>> dup_scores([0, 5], 3)
+    [0, 0, 0, 5, 5, 5]
+    """
+
+    return [s for s in scores for n in range(num_winners)]
+
+
+def tabulate_factions(max_score, num_winners, candidates, profiles):
+    """Tabulate and report election based on factions and voter profiles
+    """
+
+    print(f'Example election: {num_winners=}, {max_score=}, {factions=}')
+    print('Profiles:')
+    for profile, factor in profiles:
+        print(f'  {factor}: {profile}')
+
+    scores = []
+    for profile, factor in profiles:
+        scores.extend([dup_scores(profile, num_winners)] * factor)
+    S = pd.DataFrame.from_records(scores, columns=candidates)
+
+    print(f'Winners: {Allocated_Score(max_score, num_winners, S)}')
+
+
 if __name__ == "__main__":
+    # Run doctests
     import doctest
     doctest.testmod()
+    
+    # Sample election results, tabulation
+    max_score = 5
+    num_winners = 5
+
+    # Study simplistic factions each with identitcal candidates
+    factions = ['A', 'B', 'C']
+    candidates = dup_factions(factions, num_winners)
+
+    # Scores by faction for each of three voter profiles
+    red   = [5, 0, 0]
+    green = [0, 4, 5]
+    blue  = [0, 3, 0]
+
+    # profiles = [(red, 2), (green, 3)]
+    profiles = [(red, 21), (green, 41), (blue, 38)]
+
+    tabulate_factions(max_score, num_winners, candidates, profiles)
+
+    print()
+    blue5  = [0, 5, 0]
+    profiles5 = [(red, 21), (green, 41), (blue5, 38)]
+    tabulate_factions(max_score, num_winners, candidates, profiles5)
