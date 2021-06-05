@@ -136,3 +136,26 @@ if __name__ == "__main__":
     blue5  = [0, 5, 0]
     profiles5 = [(red, 21), (green, 41), (blue5, 38)]
     tabulate_factions(max_score, num_winners, candidates, profiles5)
+
+    # Election from star-core example at https://github.com/Equal-Vote/star-core
+    candidates = 'Adam,Becky,Cindy,Dylan,Eliza'.split(',')
+
+    scores = [
+        [0,0,5,3,2],
+        [4,0,3,3,2],
+        [0,0,0,3,1],
+        [2,0,0,3,4],
+        [0,0,0,0,0],
+        [1,5,0,3,5],
+        [0,0,0,0,0],
+    ]
+
+    num_winners = 3
+
+    print()
+
+    print(f'star-core election: {candidates=}')
+    print(f'{scores=}')
+    for num_winners in range(1,6):
+        S = pd.DataFrame.from_records(scores, columns=candidates)
+        print(f' Result with {num_winners=}: {Allocated_Score(max_score, num_winners, S)}')
