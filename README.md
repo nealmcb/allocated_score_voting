@@ -8,7 +8,13 @@ This repository provides an implementation in Python 3 and some examples.
 
 ## Installation
 
-Dependencies: Pandas
+Dependencies: Python 3.8; Pandas
+
+If you just want to try out the demo, or calculate scores based on your own data, you can run the included
+[Jupyter](https://jupyter.org/) notebook `demo_allocated_core.ipynb`
+at the free notebook hosting site [mybinder.org](https://mybinder.org/) by visiting this URL:
+
+https://mybinder.org/v2/gh/nealmcb/allocated_score_voting/HEAD?labpath=src%2Fdemo_allocated_core.ipynb
 
 ## See also
 
