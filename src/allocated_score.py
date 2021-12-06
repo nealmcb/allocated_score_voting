@@ -92,7 +92,7 @@ def dup_scores(scores, num_winners):
     return [s for s in scores for n in range(num_winners)]
 
 
-def tabulate_factions(max_score, num_winners, candidates, profiles):
+def tabulate_factions(max_score, num_winners, factions, candidates, profiles):
     """Tabulate and report election based on factions and voter profiles
     """
 
@@ -130,12 +130,12 @@ if __name__ == "__main__":
     # profiles = [(red, 2), (green, 3)]
     profiles = [(red, 21), (green, 41), (blue, 38)]
 
-    tabulate_factions(max_score, num_winners, candidates, profiles)
+    tabulate_factions(max_score, num_winners, factions, candidates, profiles)
 
     print()
     blue5  = [0, 5, 0]
     profiles5 = [(red, 21), (green, 41), (blue5, 38)]
-    tabulate_factions(max_score, num_winners, candidates, profiles5)
+    tabulate_factions(max_score, num_winners, factions, candidates, profiles5)
 
     # Election from star-core example at https://github.com/Equal-Vote/star-core
     candidates = 'Adam,Becky,Cindy,Dylan,Eliza'.split(',')
